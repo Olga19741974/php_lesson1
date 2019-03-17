@@ -1,0 +1,169 @@
+
+/*
+Написание игры hangman 
+
+1. Cоздать слова *
+2. Рондомно назначить одно слово *
+3. Отобразить кол-во нижних подчеркиваний, кол-во подчеркиваний соответствует кол-ву букв в загаданном слове *
+4. При нажатии на кнопку, должна быть проверка - наличие буквы в звгаданном слове
+4а. Путь А:*
+   Если буква есть, то отобразить ее место в подчеркивании*
+4а1.Проверяем все ли буквы отгаданы *
+4в. Путь В:
+   Если буквы нет, то включить следующий фон:
+4в1.Проверяем последний ли фон был установлен
+
+*/
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+
+
+    <div id="man"></div>
+    <div id="word">
+        
+    </div>
+    <div id="user-input">
+        <input type="text" maxlength="1">
+        <button>Check</button>
+    </div>
+    
+    
+    <script src="js/script.js"></script>
+</body>
+
+</html>
+
+
+var words = ["javascript", "neighbour", "crossroads", "unbelivable", "synchronous", "technology", "metallica", "undefined", "collaboration"];
+
+var secretWord = words[Math.floor(Math.random() * words.length)];
+
+
+
+var man = document.getElementById("man");
+var word = document.getElementById("word");
+var userInput = document.querySelector("#user-input > input");
+var btn = document.querySelector("#user-input > button"); //внутри
+
+for (var i = 0; i < secretWord.length; i++) {
+    var elem = document.createElement("span");
+    elem.textContent = "_";
+    word.appendChild(elem);
+}
+
+var spans = document.getElementsByTagName("span");
+
+
+
+
+btn.onclick = function () {
+    for (var i = 0; i < secretWord.length; i++) {
+        if (userInput.value.toLowerCase() === secretWord[i]) {
+            spans[i].textContent = userInput.value.toLowerCase();  //            меняем нижнее подчеркивание на букву
+            
+            
+            var isGameFinished = true;
+            for (var j =0; j < spans.length; j++) {
+                if (spans[j].textContent === "_") {
+                    isGameFinished = false;
+                }
+            }
+            
+            if (isGameFinished === true) {
+                document.body.style.background = "#1ec50b";
+                alert("You win!");
+                btn.onclick = null;
+                return;
+                }
+            /*if (spans.indexOf("_") < 0) {
+                alert("you win!");
+                document.body.style.background = "#1dba0b";
+                btn.onclick = null;
+                return;
+                }*/
+        }
+    }
+};
+
+
+
+
+
+body {
+    margin: 0;
+    background: #90c5f3;
+    
+}
+
+#man {
+    height: 600px;
+    background: url(../images/1.png) center / contain no-repeat;
+}
+
+#word {
+    text-align: center;
+    color: #fff;
+    font-family: "segoe ui light", sans-serif;
+    font-size: 60px;
+    font-weight: 900;
+    letter-spacing: 20px;
+}
+#user-input {
+    text-align: center;
+    padding: 50px;
+}
+
+
+#user-input > input {
+    border: none;
+    background: transparent;
+    outline: none;
+    border-bottom: 4px solid #fff;
+    width: 50px;
+    margin: 0 30px;
+    text-align: center;
+    color: #fff;
+    font-size: 60px;
+    font-family: "segoe ui light";
+    font-weight: 900;
+    
+}
+
+#user-input > button {
+   
+    width: 200px;
+    border-radius: 50px;
+    background: #494949;
+    color: #fff;
+    font-size: 40px;
+    font-family: "segoe ui light";
+  border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 20px;
+    transition: all 0.3s ease;
+        
+    
+}
+
+#user-input > button: hover {
+    background: #606060;
+}
+
+#user-input > button:active {
+    padding: 15px;
+    width: 195px;
+}
+
+
+
